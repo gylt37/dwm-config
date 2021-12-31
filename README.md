@@ -10,7 +10,7 @@ dwmblocks是dwm桌面的状态栏的补丁,具体详细介绍请看下面介绍
 | [dwmblocks](https://github.com/gylt37/dwm-config/tree/master/dwmblocks) | 状态栏  |
 | [st](https://github.com/gylt37/dwm-config/tree/master/st)    | 终端    |
 
-安装教
+安装教程
 
 ```
 git clone https://github.com/gylt37/dwm-config
