@@ -1,6 +1,6 @@
 [dwm官网](https://dwm.suckless.org/)
 
-自己使用的dwm窗口管理器的源码
+个人使用的dwm窗口管理器的源码
 
 dwmblocks是dwm桌面的状态栏的补丁,具体详细介绍请看下面介绍
 
