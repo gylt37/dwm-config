@@ -1,18 +1,9 @@
 ### 使用方法
 
-#### 本仓库下载
-
-使用命令行
-
-```
-git clone https://github.com/gylt37/dwm-config
-cd dwm-config/dwm
-```
-
 比如修补[alpha](https://dwm.suckless.org/patches/alpha/)补丁
 
 ```
-patch <  ./patchs/dwm-alpha-20201019-61bb8b2.diff
+patch < patchs/alphasystray.diff
 ```
 
 再根据目录下未修改的`.rej`文件手动修改文件
@@ -20,16 +11,7 @@ patch <  ./patchs/dwm-alpha-20201019-61bb8b2.diff
 卸载命令是
 
 ```bash
-patch -R < ./patchs/dwm-alpha-20201019-61bb8b2.diff
-```
-
-#### 从官网下载
-
-使用命令行
-
-```bash
-git clone https://git.suckless.org/dwm
-cd dwm
+patch -R < patchs/alphasystray.diff
 ```
 
 打开官网补丁网址,下载最新的补丁,比如下载[alpha](https://dwm.suckless.org/patches/alpha/)补丁
@@ -39,22 +21,14 @@ wget https://dwm.suckless.org/patches/alpha/dwm-alpha-20201019-61bb8b2.diff
 patch < dwm-alpha-20201019-61bb8b2.diff
 ```
 
-再根据目录下未修改的`.rej`文件手动修改文件
-
-卸载命令是
-
-```bash
-patch -R < dwm-alpha-20201019-61bb8b2.diff
-```
-
 ### 补丁介绍
 
 | 名称                                                         | 功能                                                         |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [alpha](https://dwm.suckless.org/patches/alpha/)             | 透明的标题栏                                                 |
+| [alpha](https://dwm.suckless.org/patches/alpha/)+[systray](https://dwm.suckless.org/patches/systray/) | 透明的标题栏+托盘                                            |
 | [awesomebar](https://dwm.suckless.org/patches/awesomebar/)   | 在标题栏显示所有窗口标题,配合dwmblocks                       |
 | [barpadding](https://dwm.suckless.org/patches/barpadding/)   | 标题栏周围添加缝隙                                           |
-| [cfacts](https://dwm.suckless.org/patches/cfacts/)和[vanitygaps](https://dwm.suckless.org/patches/vanitygaps/) | cfacts根据权重不同,修改平铺大小占比.vanitygaps调整平铺窗口的间隙.这两个补丁默认的版本冲突,下载这个[版本](https://dwm.suckless.org/patches/vanitygaps/dwm-cfacts-vanitygaps-6.2_combo.diff) |
+| [cfacts](https://dwm.suckless.org/patches/cfacts/)+[vanitygaps](https://dwm.suckless.org/patches/vanitygaps/) | cfacts根据权重不同,修改平铺大小占比.vanitygaps调整平铺窗口的间隙.这两个补丁默认的版本冲突,下载这个[版本](https://dwm.suckless.org/patches/vanitygaps/dwm-cfacts-vanitygaps-6.2_combo.diff) |
 | [clientopacity](https://dwm.suckless.org/patches/clientopacity/) | 修改窗口默认透明度                                           |
 | [cool_autostart](https://dwm.suckless.org/patches/cool_autostart/) | 在dwm启动自动启动config.h文件中autostart[]数组中的命令       |
 | [default_tag_apps](https://dwm.suckless.org/patches/default_tag_apps/) | 设置不同标签的默认应用                                       |

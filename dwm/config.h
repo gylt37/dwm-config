@@ -84,7 +84,7 @@ static const char *defaulttagapps[] = {
 static const Rule rules[] = {
     /*class      instance   title   tags mask  isfloating   monitor  opacity     float x,y,w,h   floatborderpx*/
     /*窗口类         事例     标题      标签      悬浮    屏幕位置   透明度      窗口位置与大小  浮动边界*/
-    { "spterm",      NULL,    NULL,    SPTAG(0),     1,    -1,          0.80,    -1,-1,960,720,  0 },
+    { "spterm",      NULL,    NULL,    SPTAG(0),     1,    -1,          0.80,    -1,-1,960,720,    0 },
     { "spranger",    NULL,    NULL,    SPTAG(1),     1,    -1,          0.80,    -1,-1,-1,-1,    0 },
     { "copyq",       NULL,    NULL,	       0,	     1,	   -1,	         -1,	 -1,-1,600,400,	 0 },
 };
@@ -133,8 +133,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_Tab,    spawn,          {.v = rofiwindow } },
 
     { MODKEY|ShiftMask,             XK_l,      spawn,          SHCMD("~/.config/dwm/lock.sh" )},
-    { Mod1Mask,                     XK_F4,     spawn,          SHCMD("~/.config/dwm/exit.sh" )},
-    { ControlMask|Mod1Mask,         XK_Delete, quit,           {0} },
+    {Mod1Mask,                     XK_F4,          spawn,          SHCMD("~/.config/dwm/exit.sh" )},
+    {ControlMask|Mod1Mask,         XK_Delete,      quit,           {0} },
 
 
     /* 全屏 */
