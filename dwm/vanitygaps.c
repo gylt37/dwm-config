@@ -1,12 +1,14 @@
 /* Key binding functions */
 static void defaultgaps(const Arg *arg);
 static void incrgaps(const Arg *arg);
+/*
 static void incrigaps(const Arg *arg);
 static void incrogaps(const Arg *arg);
 static void incrohgaps(const Arg *arg);
 static void incrovgaps(const Arg *arg);
 static void incrihgaps(const Arg *arg);
 static void incrivgaps(const Arg *arg);
+*/
 static void togglegaps(const Arg *arg);
 /* Layouts (delete the ones you do not need) */
 static void tile(Monitor *m);
@@ -217,9 +219,11 @@ tile(Monitor *m)
 	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
 			resize(c, mx, my, mw - (2*c->bw), mh * (c->cfact / mfacts) + (i < mrest ? 1 : 0) - (2*c->bw), 0);
-			my += HEIGHT(c) + ih;
+			if (my + HEIGHT(c) < m->wh)
+				my += HEIGHT(c) + ih;
 		} else {
 			resize(c, sx, sy, sw - (2*c->bw), sh * (c->cfact / sfacts) + ((i - m->nmaster) < srest ? 1 : 0) - (2*c->bw), 0);
-			sy += HEIGHT(c) + ih;
+			if (sy + HEIGHT(c) < m->wh)
+				sy += HEIGHT(c) + ih;
 		}
 }

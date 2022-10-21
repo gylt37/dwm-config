@@ -1,7 +1,7 @@
-From e5db0708b4da80eee897588b96d6098243406075 Mon Sep 17 00:00:00 2001
-From: Fabian Blatz <fabian.blatz@gmail.com>
-Date: Mon, 12 Oct 2020 11:26:51 +0000
-Subject: [PATCH] adds opacity on a per client basis
+From d59a5a5409e4078c2c1b5ead786e1312d431c9a8 Mon Sep 17 00:00:00 2001
+From: blatzfab <fabian.blatz@hansgrohe.com>
+Date: Sun, 12 Jun 2022 18:42:28 +0200
+Subject: [PATCH] [PATCH] adds opacity on a per client basis
 
 ---
  config.def.h | 10 +++++++---
@@ -9,7 +9,7 @@ Subject: [PATCH] adds opacity on a per client basis
  2 files changed, 43 insertions(+), 4 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
-index 1c0b587..7addf50 100644
+index a2ac963..4b6903c 100644
 --- a/config.def.h
 +++ b/config.def.h
 @@ -5,6 +5,7 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -34,7 +34,7 @@ index 1c0b587..7addf50 100644
  };
  
  /* layout(s) */
-@@ -84,6 +86,8 @@ static Key keys[] = {
+@@ -85,6 +87,8 @@ static Key keys[] = {
  	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
  	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
  	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
@@ -44,7 +44,7 @@ index 1c0b587..7addf50 100644
  	TAGKEYS(                        XK_2,                      1)
  	TAGKEYS(                        XK_3,                      2)
 diff --git a/dwm.c b/dwm.c
-index 664c527..15014c0 100644
+index 5646a5c..591dff9 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -62,7 +62,7 @@ enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
@@ -52,7 +52,7 @@ index 664c527..15014c0 100644
  enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
         NetWMFullscreen, NetActiveWindow, NetWMWindowType,
 -       NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
-+       NetWMWindowTypeDialog, NetClientList, NetWMWindowsOpacity , NetLast}; /* EWMH atoms */
++       NetWMWindowTypeDialog, NetClientList, NetWMWindowsOpacity, NetLast }; /* EWMH atoms */
  enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms */
  enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
         ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
@@ -104,7 +104,7 @@ index 664c527..15014c0 100644
  			for (m = mons; m && m->num != r->monitor; m = m->next);
  			if (m)
  				c->mon = m;
-@@ -456,6 +462,21 @@ buttonpress(XEvent *e)
+@@ -458,6 +464,21 @@ buttonpress(XEvent *e)
  			buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
  }
  
@@ -126,7 +126,7 @@ index 664c527..15014c0 100644
  void
  checkotherwm(void)
  {
-@@ -1039,6 +1060,7 @@ manage(Window w, XWindowAttributes *wa)
+@@ -1045,6 +1066,7 @@ manage(Window w, XWindowAttributes *wa)
  		c->mon = selmon;
  		applyrules(c);
  	}
@@ -134,7 +134,7 @@ index 664c527..15014c0 100644
  
  	if (c->x + WIDTH(c) > c->mon->mx + c->mon->mw)
  		c->x = c->mon->mx + c->mon->mw - WIDTH(c);
-@@ -1200,6 +1222,18 @@ nexttiled(Client *c)
+@@ -1206,6 +1228,18 @@ nexttiled(Client *c)
  	return c;
  }
  
@@ -153,7 +153,7 @@ index 664c527..15014c0 100644
  void
  pop(Client *c)
  {
-@@ -1563,6 +1597,7 @@ setup(void)
+@@ -1569,6 +1603,7 @@ setup(void)
  	netatom[NetWMWindowType] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE", False);
  	netatom[NetWMWindowTypeDialog] = XInternAtom(dpy, "_NET_WM_WINDOW_TYPE_DIALOG", False);
  	netatom[NetClientList] = XInternAtom(dpy, "_NET_CLIENT_LIST", False);
@@ -162,5 +162,5 @@ index 664c527..15014c0 100644
  	cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
  	cursor[CurResize] = drw_cur_create(drw, XC_sizing);
 -- 
-2.28.0
+2.36.1
 

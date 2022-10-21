@@ -26,13 +26,12 @@ dwm: ${OBJ}
 	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
-	rm -f config.h
-	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
+	rm -f config.h dwm ${OBJ} dwm-*.tar.gz
 
 dist: clean
 	mkdir -p dwm-${VERSION}
-	cp -R LICENSE Makefile README config.def.h config.mk\
-		dwm.1 drw.h util.h ${SRC} dwm.png transient.c dwm-${VERSION}
+	cp -R  Makefile config.def.h config.mk dwm.1 drw.h vanitygaps.c\
+		 dwm.desktop util.h ${SRC} transient.c dwm-${VERSION}
 	tar -cf dwm-${VERSION}.tar dwm-${VERSION}
 	gzip dwm-${VERSION}.tar
 	rm -rf dwm-${VERSION}
@@ -44,9 +43,13 @@ install: all
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+	mkdir -p /usr/share/xsessions/
+	cp -f dwm.desktop /usr/share/xsessions
+	chmod 644 /usr/share/xsessions/dwm.desktop
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
-		${DESTDIR}${MANPREFIX}/man1/dwm.1
+		${DESTDIR}${MANPREFIX}/man1/dwm.1\
+		  /usr/share/xsessions/dwm.desktop
 
 .PHONY: all options clean dist install uninstall

@@ -36,6 +36,12 @@ enum glyph_attribute {
 	ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
 };
 
+enum drawing_mode {
+    DRAW_NONE = 0,
+    DRAW_BG = 1 << 0,
+    DRAW_FG = 1 << 1,
+};
+
 enum selection_mode {
 	SEL_IDLE = 0,
 	SEL_EMPTY = 1,
@@ -79,6 +85,7 @@ typedef union {
 
 void die(const char *, ...);
 void redraw(void);
+void tfulldirt(void);
 void draw(void);
 
 void kscrolldown(const Arg *);
@@ -93,7 +100,7 @@ void tnew(int, int);
 void tresize(int, int);
 void tsetdirtattr(int);
 void ttyhangup(void);
-int ttynew(char *, char *, char *, char **);
+int ttynew(const char *, char *, const char *, char **);
 size_t ttyread(void);
 void ttyresize(int, int);
 void ttywrite(const char *, size_t, int);
@@ -111,7 +118,9 @@ size_t utf8encode(Rune, char *);
 
 void *xmalloc(size_t);
 void *xrealloc(void *, size_t);
-char *xstrdup(char *);
+char *xstrdup(const char *);
+
+int xgetcolor(int x, unsigned char *r, unsigned char *g, unsigned char *b);
 
 /* config.h globals */
 extern char *utmp;
@@ -125,4 +134,5 @@ extern char *termname;
 extern unsigned int tabspaces;
 extern unsigned int defaultfg;
 extern unsigned int defaultbg;
-extern float alpha;
+extern unsigned int defaultcs;
+extern float alpha, alphaUnfocused;
