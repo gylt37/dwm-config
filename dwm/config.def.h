@@ -73,8 +73,8 @@ typedef struct {
     const char *name;
     const void *cmd;
 } Sp;
-const char *spcmd1[] = {"alacritty","--class","Alacritty,spterm", NULL };
-const char *spcmd2[] = {"alacritty","--class", "Alacritty,spranger","--title","ranger","-e","ranger",NULL };
+const char *spcmd1[] = {"alacritty","--class","spterm,Alacritty", NULL };
+const char *spcmd2[] = {"alacritty","--class", "spranger,Alacritty","--title","ranger","-e","ranger",NULL };
 static Sp scratchpads[] = {
     /* name          cmd  */
     {"spterm",      spcmd1},
@@ -82,13 +82,13 @@ static Sp scratchpads[] = {
 };
 
 /* 标签名称与默认命令 */
-static const char *tags[] = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" };
+static const char *tags[] = { "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" };
 static const char *defaulttagapps[] = {
     "alacritty",
     "/usr/bin/google-chrome-stable",
     "/usr/bin/dolphin",
     "/usr/bin/obsidian",
-    NULL,
+    "/usr/bin/code",
     NULL,
     NULL,
     NULL,
