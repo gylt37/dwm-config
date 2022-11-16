@@ -21,20 +21,24 @@ update() {
 RX=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
 TX=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
 
-if [[ $RX -lt 1024 ]];then
-    RX=$(echo $RX | awk '{printf ("%3.fB" , $1)}')
+if [[ $RX -lt 1000 ]];then
+    RX=$(echo $RX | awk '{printf ("%3.fB", $1)}')
 elif [[ $RX -gt 1048576 ]];then
-    RX=$(echo $RX | awk '{printf ("%3.2fM" , $1/1048576)}')
+    RX=$(echo $RX | awk '{printf ("%3.1fM", $1/1048576)}')
+elif [[ $RX -gt 10240 ]];then
+    RX=$(echo $RX | awk '{printf ("%3.fk", $1/1024)}')
 else
-    RX=$(echo $RX | awk '{printf ("%3.1fK" , $1/1024)} ')
+    RX=$(echo $RX | awk '{printf ("%3.1fK", $1/1024)} ')
 fi
 
-if [[ $TX -lt 1024 ]];then
-    TX=$(echo $TX | awk '{printf ("%3.fB" , $1)}')
+if [[ $TX -lt 1000 ]];then
+    TX=$(echo $TX | awk '{printf ("%3.fB", $1)}')
 elif [[ $TX -gt 1048576 ]];then
-    TX=$(echo $TX | awk '{printf ("%3.2fM",$1/1048576)}')
+    TX=$(echo $TX | awk '{printf ("%3.1fM", $1/1048576)}')
+elif [[ $TX -gt 10240 ]];then
+    TX=$(echo $TX | awk '{printf ("%3.fk", $1/1024)}')
 else
-    TX=$(echo $TX | awk '{printf ("%3.1fK",$1/1024) }')
+    TX=$(echo $TX | awk '{printf ("%3.1fK", $1/1024) }')
 fi
 
 printf ":$TX :$RX"

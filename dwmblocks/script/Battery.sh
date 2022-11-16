@@ -1,9 +1,8 @@
-light=$(light)
 
 case $BLOCK_BUTTON in
-	3) notify-send "亮度: '$light'";;
-	4) light -A 5 ;;
-	5) light -U 5 ;;
+	3) $(notify-send 亮度 -h int:value:`light`);;
+	4) light -A 5 $(notify-send 亮度 -h int:value:`light`);;
+	5) light -U 5 $(notify-send 亮度 -h int:value:`light`);;
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 

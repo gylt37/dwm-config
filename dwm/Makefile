@@ -46,10 +46,14 @@ install: all
 	mkdir -p /usr/share/xsessions/
 	cp -f dwm.desktop /usr/share/xsessions
 	chmod 644 /usr/share/xsessions/dwm.desktop
+	mkdir -p /usr/local/share/dwm
+	cp -f script/* /usr/local/share/dwm
+
 
 uninstall:
 	rm -f ${DESTDIR}${PREFIX}/bin/dwm\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1\
-		  /usr/share/xsessions/dwm.desktop
+		  /usr/share/xsessions/dwm.desktop\
+	rm -rf /usr/local/share/dwm
 
 .PHONY: all options clean dist install uninstall
