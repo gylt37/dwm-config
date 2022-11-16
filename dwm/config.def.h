@@ -52,7 +52,7 @@ static const char col_cray2[]  = "#4cee4c";
 /* 颜色 背景 */
 static const char col_bg1[] = "#2a2a2a";
 static const char col_bg2[] = "#474747";
-
+/* 颜色 便签 */
 static const char col_red[]         = "#FF0000";
 static const char col_orange[]      = "#FF8800";
 /* 状态栏配色 */
@@ -60,10 +60,10 @@ static const char *colors[][3] = {
     /*                  fg           bg             border      */
     [SchemeNorm] = { col_fg1,     col_bg1,        col_cray1 }, /* 默认 */
     [SchemeSel]  = { col_fg2,     col_bg1,        col_cray2 }, /* 选中 */
-    [SchemeHid]  = { col_fg3,     col_bg2,        col_cray2 }, /*隐藏*/
+    [SchemeHid]  = { col_fg3,     col_bg2,        col_cray2 }, /* 隐藏 */
 
-    [SchemeScratchSel]  = { col_fg2, col_bg1,  col_red  },
-	[SchemeScratchNorm] = { col_fg1, col_bg1,  col_orange },
+    [SchemeScratchSel]  = { col_fg2, col_bg1,  col_red  }, /* 便签边框 选中 */
+	[SchemeScratchNorm] = { col_fg1, col_bg1,  col_orange }, /* 便签边框 未选中 */
 };
 /* 窗口 默认 透明值 */
 static const double defaultopacity = 1;
@@ -93,8 +93,8 @@ static const char *defaulttagapps[] = {
 
 /* 窗口设置, 使用xprop获取 */
 static const Rule rules[] = {
-    /*class        instance     title  tags     float  monitor                 opacity alpha   便签*/
-    /*窗口类          事例        标题    标签     悬浮   窗口位置与大小              多屏幕   透明度   便签*/
+    /*class        instance     title  tags     float   monitor                 opacity alpha   便签*/
+    /*窗口类          事例        标题    标签     悬浮     窗口位置与大小              多屏幕   透明度   便签*/
     { "copyq",       NULL,      NULL,   0,	     1,   "0x 0y 600W 450H",	      -1,   0.8,    0 },
     { "mpv",         NULL,      NULL,   0,	     1,   "0x 0y 960W 720H",	      -1,   -1,     0 },
     { "scrcpy",      NULL,      NULL,   0,	     1,   "0x 0y 960W 720H",	      -1,   -1,     0 },
@@ -119,8 +119,8 @@ static const Layout layouts[] = {
     { "",      monocle }, /* 全屏 */
 };
 /*First arg only serves to match against key in rules*/
-static const char *spterm[] = {"s", "alacritty","--class","spterm,Alacritty", NULL};
-static const char *spnnn[] = {"n", "alacritty","--class", "spnnn,Alacritty","--title","nnn","-e","/usr/local/share/dwm/spnnn.sh",NULL};
+static const char *spterm[] = {"s","alacritty","--class","spterm,Alacritty",NULL};
+static const char *spnnn[] =  {"n","alacritty","--class","spnnn,Alacritty","--title","nnn","-e","/usr/local/share/dwm/spnnn.sh",NULL};
 
 /* custom symbols for nr. of clients in monocle layout */
 /* when clients >= LENGTH(monocles), uses the last element */
@@ -149,11 +149,12 @@ static Key keys[] = {
     { Mod1Mask,                 XK_Tab,    spawn,          SHCMD("/usr/local/share/dwm/rofi-windows.sh") },
     { MODKEY|ShiftMask,         XK_l,      spawn,          SHCMD("/usr/local/share/dwm/lock.sh" )},
     { Mod1Mask,                 XK_F4,     spawn,          SHCMD("/usr/local/share/dwm/exit.sh" )},
-    { MODKEY,                       XK_a,      togglescratch,  {.v = spterm } },
-	{ MODKEY|ShiftMask,             XK_a,      removescratch,  {.v = spterm } },
-	{ MODKEY|ControlMask,           XK_a,      setscratch,     {.v = spterm } },
-    { MODKEY,                       XK_z,      togglescratch,  {.v = spnnn } },
 
+    /* 便签窗口 */
+    { MODKEY,                   XK_a,      togglescratch,  {.v = spterm } },
+	{ MODKEY|ShiftMask,         XK_a,      removescratch,  {.v = spterm } },
+	{ MODKEY|ControlMask,       XK_a,      setscratch,     {.v = spterm } },
+    { MODKEY,                   XK_z,      togglescratch,  {.v = spnnn  } },
 
     /* 退出 */
     { ControlMask|Mod1Mask,     XK_Delete, quit,           {0} },
@@ -182,6 +183,7 @@ static Key keys[] = {
 
     /* 隐藏窗口*/
     { MODKEY,                   XK_d,      hide,           {0} },
+
     /* 取消隐藏所有窗口*/
     { MODKEY,                   XK_s,      showall,        {0} },
     /* 取消隐藏当前窗口*/
@@ -223,35 +225,35 @@ static Key keys[] = {
     { MODKEY|ShiftMask,         XK_x,      setcfact,       {.f = -0.25} },
     { MODKEY|ShiftMask,         XK_c,      setcfact,       {.f =  0.00} },
 
-    /* Client position is limited to monitor window area */
-	{ MODKEY,                     XK_Up,         floatpos,       {.v = "  0x -26y" } }, // ↑
+    /* 相对移动 */
+	{ MODKEY,                     XK_Up,        floatpos,       {.v = "  0x -26y" } }, // ↑
 	{ MODKEY,                     XK_Left,      floatpos,       {.v = "-26x   0y" } }, // ←
-	{ MODKEY,                     XK_Right,       floatpos,       {.v = " 26x   0y" } }, // →
-	{ MODKEY,                     XK_Down,       floatpos,       {.v = "  0x  26y" } }, // ↓
-	/* Absolute positioning (allows moving windows between monitors) */
-
-	{ MODKEY|ControlMask,         XK_Up,      floatpos,       {.v = "  0a -26a" } }, // ↑
+	{ MODKEY,                     XK_Right,     floatpos,       {.v = " 26x   0y" } }, // →
+	{ MODKEY,                     XK_Down,      floatpos,       {.v = "  0x  26y" } }, // ↓
+	
+    /* 绝对移动 */
+	{ MODKEY|ControlMask,         XK_Up,        floatpos,       {.v = "  0a -26a" } }, // ↑
 	{ MODKEY|ControlMask,         XK_Left,      floatpos,       {.v = "-26a   0a" } }, // ←
-	{ MODKEY|ControlMask,         XK_Right,      floatpos,       {.v = " 26a   0a" } }, // →
-	{ MODKEY|ControlMask,         XK_Down,  floatpos,       {.v = "  0a  26a" } }, // ↓
+	{ MODKEY|ControlMask,         XK_Right,     floatpos,       {.v = " 26a   0a" } }, // →
+	{ MODKEY|ControlMask,         XK_Down,      floatpos,       {.v = "  0a  26a" } }, // ↓
 
-	/* Resize client, client center position is fixed which means that client expands in all directions */
-
-	{ MODKEY|ShiftMask,           XK_Up,      floatpos,       {.v = "  0w -26h" } }, // ↑
+    /* 调整大小 */
+	{ MODKEY|ShiftMask,           XK_Up,        floatpos,       {.v = "  0w -26h" } }, // ↑
 	{ MODKEY|ShiftMask,           XK_Left,      floatpos,       {.v = "-26w   0h" } }, // ←
-	{ MODKEY|ShiftMask,           XK_Right,      floatpos,       {.v = " 26w   0h" } }, // →
-	{ MODKEY|ShiftMask,           XK_Down,  floatpos,       {.v = "  0w  26h" } }, // ↓
-	/* Client is positioned in a floating grid, movement is relative to client's current position */
+	{ MODKEY|ShiftMask,           XK_Right,     floatpos,       {.v = " 26w   0h" } }, // →
+	{ MODKEY|ShiftMask,           XK_Down,      floatpos,       {.v = "  0w  26h" } }, // ↓
 
-	{ MODKEY|Mod1Mask,            XK_Up,      floatpos,       {.v = " 0p -1p" } }, // ↑
+    /* 移动到四角 */
+	{ MODKEY|Mod1Mask,            XK_Up,        floatpos,       {.v = " 0p -1p" } }, // ↑
 	{ MODKEY|Mod1Mask,            XK_Left,      floatpos,       {.v = "-1p  0p" } }, // ←
-	{ MODKEY|Mod1Mask,            XK_Right,      floatpos,       {.v = " 1p  0p" } }, // →
-	{ MODKEY|Mod1Mask,            XK_Down,  floatpos,       {.v = " 0p  1p" } }, // ↓
+	{ MODKEY|Mod1Mask,            XK_Right,     floatpos,       {.v = " 1p  0p" } }, // →
+	{ MODKEY|Mod1Mask,            XK_Down,      floatpos,       {.v = " 0p  1p" } }, // ↓
 
-    { MODKEY|ShiftMask|Mod1Mask,            XK_Up,        floatpos,   {.v = " 0x  0Z   0%   0%" } }, // ↑
-    { MODKEY|ShiftMask|Mod1Mask,            XK_Left,        floatpos,   {.v = " 0Z  0y   0%   0%" } }, // ←
-    { MODKEY|ShiftMask|Mod1Mask,            XK_Right,        floatpos,   {.v = "-1S  0y 100%   0%" } }, // →
-    { MODKEY|ShiftMask|Mod1Mask,            XK_Down,    floatpos,   {.v = " 0x -1S   0% 100%" } }, // ↓
+    /* 调整大小到边框 */
+    { MODKEY|ShiftMask|Mod1Mask,  XK_Up,        floatpos,   {.v = " 0x  0Z   0%   0%" } }, // ↑
+    { MODKEY|ShiftMask|Mod1Mask,  XK_Left,      floatpos,   {.v = " 0Z  0y   0%   0%" } }, // ←
+    { MODKEY|ShiftMask|Mod1Mask,  XK_Right,     floatpos,   {.v = "-1S  0y 100%   0%" } }, // →
+    { MODKEY|ShiftMask|Mod1Mask,  XK_Down,      floatpos,   {.v = " 0x -1S   0% 100%" } }, // ↓
 
 
     TAGKEYS(                    XK_1,                      0)
@@ -270,10 +272,6 @@ static Key keys[] = {
 
     /* 默认窗口应用 */
     { MODKEY,                   XK_w,       spawndefault,   {0} },
-
-    // /* 便签窗口 */
-    // { MODKEY,                   XK_a,       togglescratch,  {.ui = 0 } },
-    // { MODKEY,                   XK_z,       togglescratch,  {.ui = 1 } },
 
     /* 默认窗口间隙 无窗口间隙*/
     { MODKEY,                   XK_0,      defaultgaps,    {0} },
