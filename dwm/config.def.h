@@ -140,7 +140,7 @@ static const char *monocles[] = { "", "", "", "", "", "", "
 
 
 /* 按键设置 */
-static Key keys[] = {
+static const Key keys[] = {
     /* 特殊键                    虚拟键码     调用函数         参数 */
 
     /* 脚本 */
@@ -285,7 +285,7 @@ static Key keys[] = {
 
 /* 鼠标设置 */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
-static Button buttons[] = {
+static const Button buttons[] = {
     /* click                event mask      button          function        argument */
     { ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
     { ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
