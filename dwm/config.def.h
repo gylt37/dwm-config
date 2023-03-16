@@ -1,6 +1,12 @@
 /* See LICENSE file for copyright and license details. */
 #include <X11/XF86keysym.h>
 
+static const int newclientathead    = 0;        /* 定义新窗口在栈顶还是栈底 */
+static const int overviewgappi           = 24;        /* overview时 窗口与边缘 缝隙大小 */
+static const int overviewgappo           = 60;        /* overview时 窗口与窗口 缝隙大小 */
+static const char *overviewtag = "OVERVIEW";
+static const Layout overviewlayout = { "",  overview };
+
 /* 托盘相关 */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 1;   /* systray spacing */
@@ -117,6 +123,7 @@ static const Layout layouts[] = {
     { "",      tile },    /* 平铺 */
     { "",      NULL },    /* 浮动 */
     { "",      monocle }, /* 全屏 */
+    { "[G]",    magicgrid }, /* 网格 */
 };
 /*First arg only serves to match against key in rules*/
 static const char *spterm[] = {"s","alacritty","--class","spterm,Alacritty",NULL};
@@ -146,7 +153,6 @@ static const Key keys[] = {
     /* 脚本 */
     { MODKEY,                   XK_Return, spawn,          SHCMD("/usr/local/share/dwm/terminal.sh")  },
     { MODKEY,                   XK_r,      spawn,          SHCMD("/usr/local/share/dwm/rofi-drun.sh") },
-    { Mod1Mask,                 XK_Tab,    spawn,          SHCMD("/usr/local/share/dwm/rofi-windows.sh") },
     { MODKEY|ShiftMask,         XK_l,      spawn,          SHCMD("/usr/local/share/dwm/lock.sh" )},
     { Mod1Mask,                 XK_F4,     spawn,          SHCMD("/usr/local/share/dwm/exit.sh" )},
 
@@ -173,9 +179,10 @@ static const Key keys[] = {
     { MODKEY,                   XK_h,      setmfact,       {.f = -0.05} },
     { MODKEY,                   XK_l,      setmfact,       {.f = +0.05} },
 
+    { MODKEY,                     XK_Tab,      toggleoverview, {0} },
     /* 聚集下一个窗口, 跳过隐藏 */
-    { MODKEY,                   XK_Tab,    focusstackvis,  {.i = +1 } },
-    { MODKEY|ShiftMask,         XK_Tab,    focusstackvis,  {.i = -1 } },
+    { Mod1Mask,                   XK_Tab,    focusstackvis,  {.i = +1 } },
+    { Mod1Mask|ShiftMask,         XK_Tab,    focusstackvis,  {.i = -1 } },
 
     /* 聚集下一个隐藏窗口 */
     { MODKEY,                   XK_j,      focusstackhid,  {.i = +1 } },
@@ -196,6 +203,7 @@ static const Key keys[] = {
     { MODKEY,                   XK_x,      setlayout,      {.v = &layouts[0]} },
     { MODKEY,                   XK_c,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                   XK_v,      setlayout,      {.v = &layouts[2]} },
+    { MODKEY,                   XK_b,      setlayout,      {.v = &layouts[3]} },
 
     /* 应用窗口 浮动<->平铺 之间切换 */
     { MODKEY,                   XK_space, togglefloating,  {0} },
@@ -277,7 +285,7 @@ static const Key keys[] = {
     { MODKEY,                   XK_0,      defaultgaps,    {0} },
     { MODKEY|ShiftMask,         XK_0,      togglegaps,     {0} },
 
-    /* 增大全窗口间隙 减小全窗口间隙 */
+    /* = 增大全窗口间隙 - 减小全窗口间隙 */
     { MODKEY,                   XK_minus,  incrgaps,       {.i = +1 } },
     { MODKEY,                   XK_equal,  incrgaps,       {.i = -1 } },
 
