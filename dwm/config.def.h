@@ -40,10 +40,10 @@ static const Bool viewontag = True;  /* Switch view on tag switch */
 
 /* 字体 设置 */
 static const char *fonts[] = {
-    "Roboto Mono:size=12",
+    "Fira Code:size=12",
     "Symbols Nerd Font Mono:size=10",
     "Noto Sans CJK SC:size=10",
-    "monospace:size=10",
+    "monospace:size=10"
 };
 
 /* 颜色 前景 */
@@ -84,7 +84,7 @@ static const unsigned int alphas[][3] = {
 };
 
 /* 标签名称与默认命令 */
-static const char *tags[] = { "¹", "󰇩²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹" };
+static const char *tags[] = { "¹", "󰇩²", "³", "⁴", "⁵", "⁶", "󰎶⁷", "󰎹⁸", "󰎼⁹" };
 static const char *defaulttagapps[] = {
     "alacritty",
     "/usr/bin/microsoft-edge-stable",
@@ -131,7 +131,7 @@ static const char *spnnn[] =  {"n","alacritty","--class","spnnn,Alacritty","--ti
 
 /* custom symbols for nr. of clients in monocle layout */
 /* when clients >= LENGTH(monocles), uses the last element */
-static const char *monocles[] = { "", "", "", "", "", "", "", "", "", "" };
+static const char *monocles[] = { "󰼏", "󰼐", "󰼑", "󰼒", "󰼓", "󰼔", "󰼕", "󰼖", "󰼗", "󰼘" };
 
 /* 特殊键为Win键 */
 #define MODKEY Mod4Mask

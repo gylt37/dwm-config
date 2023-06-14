@@ -12,7 +12,7 @@ number=$(pacman -Qu | grep -Fcv "[被忽略的]")
 if  [ "$number" -eq "0" ]; then
     icon=""
 else
-    icon="遲"
+    icon="󰿺"
     sate=":$number"
 fi
 

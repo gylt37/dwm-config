@@ -9,6 +9,6 @@ case $BLOCK_BUTTON in
 	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-LOCALTIME=$(date +"%m-%d(%a)%H:%M")
+LOCALTIME=$(date +"%m-%d(%a)󱑒%H:%M")
 printf "${LOCALTIME}"
 

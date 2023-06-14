@@ -16,11 +16,11 @@ vol=$(pamixer --get-volume)
 mute=$(pamixer --get-mute)
 
 if  [ $mute == "true" ]; then
-    icon="婢"
-elif [ "$vol" -eq "100"  ]; then
+    icon="󰖁"
+elif [ "$vol" -gt "100"  ]; then
     icon=""
 elif [ "$vol" -gt "70" ]; then
-	icon="墳"
+	icon="󰕾"
 elif [ "$vol" -lt "30" ]; then
 	icon=""
 else
